@@ -1,0 +1,182 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Address
+  description: This is Address API
+host: 'localhost:2002'
+basePath: /api
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+paths:
+  /v1/Addresss:
+    get:
+      tags:
+        - Address
+      description: Gets all Addresss from the system that the user has access to
+      operationId: getAddress
+      produces:
+        - application/json
+      x-swagger-router-controller: Address
+      responses:
+        '200':
+          description: Address response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/v1Addresss'
+        '404':
+          description: Address response
+          schema:
+            type: object
+        '500':
+          description: Address response
+          schema:
+            type: object
+      parameters:
+        - name: pageSize
+          in: query
+          description: Number of records returned
+          type: integer
+        - name: pageNumber
+          in: query
+          description: Page number
+          type: integer
+    put:
+      tags:
+        - Address
+      description: Puts all Addresss from the system that the user has access to
+      operationId: putAddress
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      x-swagger-router-controller: Address
+      responses:
+        '204':
+          description: Address response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/v1Addresss'
+        '404':
+          description: Address response
+          schema:
+            type: object
+        '500':
+          description: Address response
+          schema:
+            type: object
+      parameters:
+        - name: v1/Addresss
+          in: body
+          schema:
+            $ref: '#/definitions/v1Addresss'
+    post:
+      tags:
+        - Address
+      description: Posts all Addresss from the system that the user has access to
+      operationId: postAddress
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      x-swagger-router-controller: Address
+      responses:
+        '204':
+          description: Address response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/v1Addresss'
+        '404':
+          description: Address response
+          schema:
+            type: object
+        '500':
+          description: Address response
+          schema:
+            type: object
+      parameters:
+        - name: v1/Addresss
+          in: body
+          schema:
+            $ref: '#/definitions/v1Addresss'
+    patch:
+      tags:
+        - Address
+      description: Patchs all Addresss from the system that the user has access to
+      operationId: patchAddress
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      x-swagger-router-controller: Address
+      responses:
+        '204':
+          description: Address response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/v1Addresss'
+        '404':
+          description: Address response
+          schema:
+            type: object
+        '500':
+          description: Address response
+          schema:
+            type: object
+definitions:
+  ApiError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  v1Addresss:
+    type: object
+    properties:
+      ID:
+        type: number
+      Name:
+        type: string
+      Age:
+        type: number
+    required:
+      - ID
+      - Name
+      - Age
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: '#/definitions/ApiError'
+  PersonDoesNotExistResponse:
+    description: Person does not exist.
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  gateway: datapower-gateway
+  catalogs:
+    apic-dev:
+      properties:
+        runtime-url: $(TARGET_URL)
+    sb:
+      properties:
+        runtime-url: 'http://localhost:8080'
+  assembly:
+    execute:
+      - invoke:
+          target-url: $(runtime-url)$(request.path)$(request.search)
+          tls-profile: ''
+          secure-gateway: false
+    catch: []
